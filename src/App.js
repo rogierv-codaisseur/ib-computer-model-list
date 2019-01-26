@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ModelDetails from './components/ModelDetails';
 import { addModel } from './actions/models';
 import './App.css';
 
@@ -36,7 +37,8 @@ class App extends Component {
   };
 
   submitHandler = event => {
-    const model = data[this.state.value];
+    event.preventDefault();
+    const model = { ...data[this.state.value], name: this.state.value };
     this.props.addModel(model);
   };
 
@@ -48,16 +50,21 @@ class App extends Component {
             <select onChange={this.updateSelection} value={this.state.value}>
               <option value=''>-- pick a model --</option>
               {computers.map((computer, index) => (
-                <option key={index} value={computer[0]}>
+                <option key={computer[0]} value={computer[0]}>
                   {computer[0]} ({computer[1].year})
                 </option>
               ))}
             </select>
             <button onClick={this.submitHandler}>Add</button>
+            <ModelDetails modelDetails={this.props.models} />
           </div>
         }
       </div>
     );
+  }
+
+  componentDidMount() {
+    return <ModelDetails />;
   }
 }
 

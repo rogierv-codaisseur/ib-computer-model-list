@@ -22,10 +22,18 @@
   color: #61dafb;
 }
 
+.model-selection {
+  margin: auto;
+  text-align: left;
+  padding: 1rem;
+  width: 50%;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

@@ -15,8 +15,8 @@ const data = {
     year: 1977,
     origin: 'USA'
   },
-  'Sord M200 Smart Home Computer': {
-    manufacturer: 'Sord Computer Corporation',
+  'Sord M200 Smart Home model': {
+    manufacturer: 'Sord model Corporation',
     year: 1971,
     origin: 'Japan'
   },
@@ -27,8 +27,6 @@ const data = {
   }
 };
 
-const computers = Object.entries(data);
-
 class App extends Component {
   state = {};
 
@@ -36,35 +34,50 @@ class App extends Component {
     this.setState({ value: event.target.value });
   };
 
-  submitHandler = event => {
-    event.preventDefault();
+  submitHandler = () => {
     const model = { ...data[this.state.value], name: this.state.value };
-    this.props.addModel(model);
+    this.validateSelection(this.props.models, model) &&
+      this.props.addModel(model);
+  };
+
+  validateSelection = (models, selection) => {
+    if (!selection.name) {
+      console.log(`No model selected`);
+      return false;
+    } else if (
+      JSON.stringify(models).indexOf(JSON.stringify(selection)) !== -1
+    ) {
+      console.log(`Model ${selection.name} already added`);
+      return false;
+    }
+    return true;
+  };
+
+  renderOptions = model => {
+    const name = model[0];
+    const details = model[1];
+    return (
+      <option key={name} value={name}>
+        {name} ({details.year})
+      </option>
+    );
   };
 
   render() {
     return (
       <div className='App'>
         {
-          <div>
+          <div className='model-selection'>
+            <ModelDetails modelDetails={this.props.models} />
             <select onChange={this.updateSelection} value={this.state.value}>
               <option value=''>-- pick a model --</option>
-              {computers.map((computer, index) => (
-                <option key={computer[0]} value={computer[0]}>
-                  {computer[0]} ({computer[1].year})
-                </option>
-              ))}
+              {Object.entries(data).map(model => this.renderOptions(model))}
             </select>
             <button onClick={this.submitHandler}>Add</button>
-            <ModelDetails modelDetails={this.props.models} />
           </div>
         }
       </div>
     );
-  }
-
-  componentDidMount() {
-    return <ModelDetails />;
   }
 }
 

@@ -2,15 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ModelDetails = props => {
-  console.log(props);
   const renderModelDetails = model => {
     return (
-      <ul key={model.name}>
-        <li>Name: {model.name}</li>
-        <li>Manufacturer: {model.manufacturer}</li>
-        <li>Year: {model.year}</li>
-        <li>Origin: {model.origin}</li>
-      </ul>
+      <div key={model.name}>
+        <ul>
+          <li>Name: {model.name}</li>
+          <li>Manufacturer: {model.manufacturer}</li>
+          <li>Year: {model.year}</li>
+          <li>Origin: {model.origin}</li>
+        </ul>
+      </div>
     );
   };
 
